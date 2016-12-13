@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_setting"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_setting">
+
+    <Button
+        android:text="Location"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button1" />
+
+    <Button
+        android:text="Unit"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2" />
+</LinearLayout>
