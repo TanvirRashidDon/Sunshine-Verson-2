@@ -1,8 +1,11 @@
 package app.com.lily.tanvir.sunshine_verson_2;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -52,11 +55,12 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
 
     }
 
     public MainActivityFragment() {
+
     }
 
     @Override
@@ -94,13 +98,18 @@ public class MainActivityFragment extends Fragment {
         int id=item.getItemId();
         switch (id){
             case R.id.action_refress:
-                updateWather();
+                Context context=getContext();
+                if(isOnline(context)){
+                    updateWather();
+                }else {
+                    Toast.makeText( context, "NO Network : " , Toast.LENGTH_SHORT ).show();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void updateWather() {
+    public void updateWather() {
         FatchWethertask fatchWethertask=new FatchWethertask();
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location=preferences.getString(getString(R.string.pref_location_key),
@@ -111,7 +120,31 @@ public class MainActivityFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        updateWather();
+        Context context=getContext();
+        if(isOnline(context)){
+            updateWather();
+        }else {
+            Toast.makeText( context, "NO Network : " , Toast.LENGTH_SHORT ).show();
+        }
+    }
+
+    public boolean isOnline(Context context) {
+
+        final ConnectivityManager connMgr = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        boolean isWifiConn = networkInfo.isConnected();
+        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        boolean isMobileConn = networkInfo.isConnected();
+
+        if (isWifiConn || isMobileConn) {
+            // Do something
+            Log.d("Network Available ", "Flag No 1");
+            return true;
+        }
+        Log.d("NO NETWORK AVAILABLE","Flag No 2");
+        return false;
     }
 
     public class FatchWethertask extends AsyncTask<String,Integer,String[]>{
@@ -200,6 +233,7 @@ public class MainActivityFragment extends Fragment {
                 }
             }
     }
+
     /* The date/time conversion code is going to be moved outside the asynctask later,
        * so for convenience we're breaking it out into its own method now.
        */
@@ -305,4 +339,6 @@ public class MainActivityFragment extends Fragment {
     }
 
     }
+
+
 }
