@@ -13,7 +13,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.test.AndroidTestCase;
 
-import app.com.lily.tanvir.sunshine_verson_2.utils.PollingCheck;
+import app.com.lily.tanvir.sunshine_verson_2.Utils.PollingCheck;
 
 import java.util.Map;
 import java.util.Set;
