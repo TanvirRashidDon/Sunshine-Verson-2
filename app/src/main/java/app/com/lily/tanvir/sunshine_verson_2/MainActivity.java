@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+    private String LOG_TAG="DON : ";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        Log.e(LOG_TAG,"OnCreate");
     }
 
     @Override
@@ -84,4 +86,35 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Error", "Couldn't call " + location + ", no receiving apps installed!");
         }
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e(LOG_TAG,"OnStart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e(LOG_TAG,"OnResume");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e(LOG_TAG,"OnPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e(LOG_TAG,"OnStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(LOG_TAG,"OnDestroy");
+    }
+
 }
