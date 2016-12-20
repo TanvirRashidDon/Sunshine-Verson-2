@@ -109,6 +109,27 @@ public class MainActivityFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+
+    public boolean isOnline(Context context) {
+
+        final ConnectivityManager connMgr = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final android.net.NetworkInfo wifi = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        final android.net.NetworkInfo mobile = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifi.isAvailable() || mobile.isAvailable()) {
+            // Do something
+            Log.d("Network Available ", "Flag No 1");
+            return true;
+        }
+        Log.d("NO NETWORK AVAILABLE","Flag No 2");
+        return false;
+    }
+
     public void updateWather() {
         FatchWethertask fatchWethertask=new FatchWethertask();
         SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -128,24 +149,6 @@ public class MainActivityFragment extends Fragment {
         }
     }
 
-    public boolean isOnline(Context context) {
-
-        final ConnectivityManager connMgr = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        boolean isWifiConn = networkInfo.isConnected();
-        networkInfo = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-        boolean isMobileConn = networkInfo.isConnected();
-
-        if (isWifiConn || isMobileConn) {
-            // Do something
-            Log.d("Network Available ", "Flag No 1");
-            return true;
-        }
-        Log.d("NO NETWORK AVAILABLE","Flag No 2");
-        return false;
-    }
 
     public class FatchWethertask extends AsyncTask<String,Integer,String[]>{
 
@@ -252,9 +255,9 @@ public class MainActivityFragment extends Fragment {
 
         SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getActivity());
         String unit=sharedPreferences.getString(getString(R.string.pref_unit_key),
-                getString(R.string.unit_default));
+                getString(R.string.pref_unit_default));
 
-        if(!unit.equals(getString(R.string.unit_default))){
+        if(!unit.equals(getString(R.string.pref_unit_default))){
             high=high*1.8+32;
             low=low*1.8+32;
         }
